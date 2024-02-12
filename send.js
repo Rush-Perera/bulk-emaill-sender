@@ -7,7 +7,7 @@ const password = process.env.SENDER_PASSWORD;
 const csvFile = "data.csv";
 const templateFile = "template1.html";
 const statusFile = "email_status.csv";
-
+// Read email addresses from CSV
 // const emails = fs.readFileSync(csvFile, "utf8").split("\n");
 const emails = ["sudeeraperera21@gmail.com", "srkgeeks@gmail.com"];
 
