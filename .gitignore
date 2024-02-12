@@ -1,3 +1,4 @@
 
 # Except the data in a CSV file
 *.csv
+.env

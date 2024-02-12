@@ -2,8 +2,8 @@ const nodemailer = require("nodemailer");
 const fs = require("fs");
 
 // Replace with your Titan credentials and file path
-const senderEmail = "info@genztech.lk";
-const password = "6QZBaH_NJKYr3pm";
+const senderEmail = process.env.SENDER_EMAIL;
+const password = process.env.SENDER_PASSWORD;
 const csvFile = "data.csv";
 const templateFile = "template1.html";
 const statusFile = "email_status.csv";
