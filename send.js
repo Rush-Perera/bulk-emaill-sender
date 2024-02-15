@@ -1,5 +1,7 @@
 const nodemailer = require("nodemailer");
 const fs = require("fs");
+// require env file
+require("dotenv").config();
 
 // Replace with your Titan credentials and file path
 const senderEmail = process.env.SENDER_EMAIL;
@@ -8,12 +10,12 @@ const csvFile = "data.csv";
 const templateFile = "template1.html";
 const statusFile = "email_status.csv";
 // Read email addresses from CSV
-// const emails = fs.readFileSync(csvFile, "utf8").split("\n");
-const emails = ["sudeeraperera21@gmail.com", "srkgeeks@gmail.com"];
+const emails = fs.readFileSync(csvFile, "utf8").split("\n");
+// const emails = ["sudeeraperera21@gmail.com", "srkgeeks@gmail.com"];
 
 // Create transporter object with Titan-specific settings
 const transporter = nodemailer.createTransport({
-  host: "smtp.titan.email",
+  host: "smtp.gmail.com",
   port: 465,
   secure: true, // Use secure connection
   auth: {
@@ -58,7 +60,8 @@ emails.forEach((email) => {
       }
 
       // Write status and error message to the file
-      statusStream.write(`${email},${status},${errorMessage}\n`);
+      // statusStream.write(`${email},${status},${errorMessage}\n`);
+      statusStream.write(`${email},${status}\n`);
     } catch (err) {
       console.error(`Error writing status to file: ${err}`);
     }
