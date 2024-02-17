@@ -1,38 +1,47 @@
 const fs = require('fs');
-const parse = require('csv-parse');
 
-// Function to read CSV file and return a Promise with parsed data
-const readCSV = (filePath) => {
-  return new Promise((resolve, reject) => {
-    const rows = [];
-    fs.createReadStream(filePath)
-      .pipe(parse({ columns: true, trim: true }))
-      .on('data', (row) => rows.push(row))
-      .on('end', () => resolve(rows))
-      .on('error', (error) => reject(error));
-  });
-};
+// Read the CSV file
+fs.readFile('email_status.csv', 'utf8', (err, data) => {
+    
+  if (err) {
+    console.error('Error reading file:', err);
+    return;
+  }
+  console.log('Reading file...');
+    // console.log(data);
 
-// Read emails from emails.csv
-readCSV('emails.csv')
-  .then((emailData) => {
-    // Read text list from textlist.csv
-    return readCSV('textlist.csv')
-      .then((textListData) => ({ emailData, textListData }));
-  })
-  .then(({ emailData, textListData }) => {
-    // Extract text values from textListData
-    const textsToFilter = textListData.map(item => item.text);
+  // Split the CSV data by newlines to get individual rows
+  const rows = data.split('\n');
+//   terate through the rows and log them
+rows.forEach(row => {
+    // const set1 = row.split('gsmtp');
+    // if (set1.length > 1) {
+    //     const set2 = set1[1].split(',Failed');
+    //     if (set2.length > 0) {
+    //         const extractedValue = set2[0];
+    //         console.log(extractedValue);
+    //     } else {
+    //         console.log('Failed to extract value');
+    //     }
+    // } else {
+    //     console.log('Failed to split on "gsmtp"');
+    // }
+    console.log(row);
+});
 
-    // Filter emails containing specific texts
-    const filteredEmails = emailData.filter(emailItem => {
-      const email = emailItem.email.toLowerCase();
-      return textsToFilter.some(text => email.includes(text.toLowerCase()));
-    });
+//   console.log('Rows:', rows);
 
-    // Print the filtered email list
-    console.log('Filtered Emails:', filteredEmails.map(item => item.email));
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
+  // Extract the email text from the CSV, assuming it's in the first column
+//   const emailTextColumnIndex = 0; // Adjust if email text is in a different column
+//   const emailText = rows.map(row => row.split(',')[emailTextColumnIndex]).join('\n');
+
+//   // Now you can use the same code to extract failed emails using regex
+//   const regex = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\s*,Failed/g;
+//   const failedEmails = [];
+//   let match;
+//   while ((match = regex.exec(emailText)) !== null) {
+//     failedEmails.push(match[1]);
+//   }
+
+//   console.log('Failed Emails:', failedEmails);
+});
